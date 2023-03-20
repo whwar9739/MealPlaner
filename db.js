@@ -1,5 +1,11 @@
 const mariadb = require('mariadb');
-const pool = require('../config');
+
+const pool = mariadb.createPool({
+  host: "192.168.1.222",
+  user: "root",
+  password: "fnb$C1296",
+  database: "MealPlanner"
+});
 
 module.exports={
   getConnection: function(){
