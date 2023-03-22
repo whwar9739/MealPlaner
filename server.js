@@ -1,9 +1,23 @@
 const express = require('express');
-const pool = require('./db');
+const dotenv = require('dotenv');
+//const pool = require('./db');
 const app = express();
-const port = 5000;
 
-// here we expose an endpoint "persons"
+dotenv.config({path: '.env-local'});
+
+const port = process.env.PORT || '5001';
+
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
+// routes
+app.get('/', (request, response) => {
+    response.status(200).send("This is not why you're here. Head to /ingredient.");
+})
+
+const ingredientRouter = require('./routes/ingredient');
+app.use('/ingredient', ingredientRouter);
+/*
 app.get('/ingredient', async (req, res) => {
     let conn;
     try {
@@ -24,5 +38,6 @@ app.get('/ingredient', async (req, res) => {
         if (conn) return conn.release();
     }
 });
+*/
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
